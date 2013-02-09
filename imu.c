@@ -46,20 +46,20 @@ int done;
 
 void usage(char *argv_0)
 {
-	printf("\nUsage: %s [options]\n", argv_0);
-	printf("  -b <i2c-bus>          The I2C bus number where the IMU is. The default is 1 to use /dev/i2c-1.\n");
-	printf("  -s <sample-rate>      The IMU sample rate in Hz. Range 2-50, default 10.\n");
-	printf("  -y <yaw-mix-factor>   Effect of mag yaw on fused yaw data.\n");
-	printf("                           0 = gyro only\n");
-	printf("                           1 = mag only\n");
-	printf("                           > 1 scaled mag adjustment of gyro data\n");
-	printf("                           The default is 4.\n");
-	printf("  -a <accelcal file>    Path to accelerometer calibration file. Default is ./accelcal.txt\n");
-	printf("  -m <magcal file>      Path to mag calibration file. Default is ./magcal.txt\n");
-	printf("  -v                    Verbose messages\n");
-	printf("  -h                    Show this help\n");
+	fprintf(stderr, "\nUsage: %s [options]\n", argv_0);
+	fprintf(stderr, "  -b <i2c-bus>          The I2C bus number where the IMU is. The default is 1 to use /dev/i2c-1.\n");
+	fprintf(stderr, "  -s <sample-rate>      The IMU sample rate in Hz. Range 2-50, default 10.\n");
+	fprintf(stderr, "  -y <yaw-mix-factor>   Effect of mag yaw on fused yaw data.\n");
+	fprintf(stderr, "                           0 = gyro only\n");
+	fprintf(stderr, "                           1 = mag only\n");
+	fprintf(stderr, "                           > 1 scaled mag adjustment of gyro data\n");
+	fprintf(stderr, "                           The default is 4.\n");
+	fprintf(stderr, "  -a <accelcal file>    Path to accelerometer calibration file. Default is ./accelcal.txt\n");
+	fprintf(stderr, "  -m <magcal file>      Path to mag calibration file. Default is ./magcal.txt\n");
+	fprintf(stderr, "  -v                    Verbose messages\n");
+	fprintf(stderr, "  -h                    Show this help\n");
 
-	printf("\nExample: %s -b3 -s20 -y10\n\n", argv_0);
+	fprintf(stderr, "\nExample: %s -b3 -s20 -y10\n\n", argv_0);
 	
 	exit(1);
 }
@@ -181,7 +181,7 @@ void read_loop(unsigned int sample_rate)
 
 	loop_delay = (1000 / sample_rate) - 2;
 
-	printf("\nEntering read loop (ctrl-c to exit)\n\n");
+	fprintf(stderr, "\nEntering read loop (ctrl-c to exit)\n\n");
 
 	linux_delay_ms(loop_delay);
 
@@ -195,13 +195,11 @@ void read_loop(unsigned int sample_rate)
 
 		linux_delay_ms(loop_delay);
 	}
-
-	printf("\n\n");
 }
 
 void print_fused_euler_angles(mpudata_t *mpu)
 {
-	printf("\rX: %0.0f Y: %0.0f Z: %0.0f        ",
+	printf("%.2f:%.2f:%.2f\n",
 			mpu->fusedEuler[VEC3_X] * RAD_TO_DEGREE, 
 			mpu->fusedEuler[VEC3_Y] * RAD_TO_DEGREE, 
 			mpu->fusedEuler[VEC3_Z] * RAD_TO_DEGREE);
